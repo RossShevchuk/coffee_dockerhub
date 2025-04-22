@@ -33,4 +33,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: cybeross/coffee-wifi:latest, cybeross/coffee-wifi:${{ github.run_number }}
+          tags: cybeross/coffeewifi:latest, cybeross/coffeewifi:${{ github.run_number }}
