@@ -3,6 +3,7 @@
 # base python image for custom image
 FROM python:3.9.13-slim-buster
 
+ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip install --upgrade pip
 
 # create working directory and install pip dependencies
@@ -13,7 +14,7 @@ RUN pip install -r requirements.txt
 # copy python project files from local to /git-docker-aws image working directory
 COPY . .
 ENV FLASK_APP=main.py
-ENV PIP_ROOT_USER_ACTION=ignore
+
 
 EXPOSE 5000
 
