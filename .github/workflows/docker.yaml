@@ -40,7 +40,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: /git-dockerhub
+          context: ./git-dockerhub
           file: ./Dockerfile
           push: true
           tags: cybeross/coffee-wifi:latest
