@@ -3,7 +3,7 @@
 # base python image for custom image
 FROM python:3.9.13-slim-buster
 
-RUN pip install --upgrade pip
+RUN pip install --root-user-action=ignore --upgrade pip
 
 # create working directory and install pip dependencies
 WORKDIR /git-dockerhub
