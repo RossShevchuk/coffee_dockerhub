@@ -9,7 +9,8 @@ stages:
   - stage: Deploy to DockerHub
     displayName: Deploy to DockerHub
     jobs:
-      build:
+      DockerHub:
+        name: DockerHub
         runs-on: ubuntu-latest
         steps:
           - 
@@ -52,7 +53,8 @@ stages:
   - stage: Deploy to AWS EC2 via SSH
     displayName: Deploy to AWS EC2 via SSH
     jobs:
-      build:
+      EC2:
+        name: EC2
         runs-on: ubuntu-latest
         steps:
           - 
