@@ -45,8 +45,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: cybeross/coffee-wifi:latest
-
-jobs:
+          
   EC2:
     name: EC2
     runs-on: ubuntu-latest
