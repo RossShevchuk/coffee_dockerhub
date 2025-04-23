@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-
-
 stages:
   - stage: Deploy to DockerHub
     displayName: Deploy to DockerHub
@@ -49,7 +47,6 @@ stages:
               file: ./Dockerfile
               push: true
               tags: cybeross/coffee-wifi:latest
-
   - stage: Deploy to AWS EC2 via SSH
     displayName: Deploy to AWS EC2 via SSH
     jobs:
