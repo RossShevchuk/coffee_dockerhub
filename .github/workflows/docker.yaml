@@ -86,7 +86,7 @@ jobs:
           #Getting the updated IP
           IP=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
-            --region $aws-region \
+            --region $REGION \
             --query "Reservations[0].Instances[0].PublicIpAddress" \
             --output text)
           echo "EC2_IP=$IP" >> $GITHUB_ENV
