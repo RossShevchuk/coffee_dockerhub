@@ -66,10 +66,11 @@ jobs:
         name: Check EC2 Instance State
         id: ec2_state
         run: |
+          REGION=${{ secrets.AWS_REGION }}
           echo "Region is $aws-region"
           STATE=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
-            --region $aws-region \
+            --region $REGION \
             --query "Reservations[0].Instances[0].State.Name" \
             --output text)
           echo "Instance state is: $STATE"
@@ -78,6 +79,7 @@ jobs:
         name: Start EC2 Instance (only if stopped)
         if: steps.ec2_state.outputs.state == 'stopped'
         run: |
+          REGION=${{ secrets.AWS_REGION }}
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           echo "Waiting for EC2 to fully boot..."
           sleep 60  # wait a bit for the IP to be assigned
