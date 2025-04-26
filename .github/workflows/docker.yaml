@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   DockerHub:
@@ -54,6 +55,35 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@v4
+      - 
+        name: Check EC2 Instance State
+        id: ec2_state
+        run: |
+          STATE=$(aws ec2 describe-instances \
+            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --query "Reservations[0].Instances[0].State.Name" \
+            --output text)
+          echo "Instance state is: $STATE"
+          echo "state=$STATE" >> $GITHUB_OUTPUT
+      - 
+        name: Start EC2 Instance (only if stopped)
+        if: steps.ec2_state.outputs.state == 'stopped'
+        run: |
+          aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
+          echo "Waiting for EC2 to fully boot..."
+          sleep 60  # wait a bit for the IP to be assigned
+          #Getting the updated IP
+          IP=$(aws ec2 describe-instances \
+            --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --query "Reservations[0].Instances[0].PublicIpAddress" \
+            --output text)
+          echo "EC2_IP=$IP" >> $GITHUB_ENV
+          #Updating github action secret EC2_SSH_HOST_DNS
+          gh secret set EC2_SSH_HOST_DNS 
+            --body "$IP" 
+            --repo ${{ github.repository }}
+          
+
       - name: Build & Deploy to AWS EC2
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
@@ -61,4 +91,9 @@ jobs:
           USER_NAME: ${{secrets.EC2_SSH_USERNAME}}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+            sudo systemctl restart docker
+            sudo docker pull cybeross/coffee-wifi:latest
+            sudo docker run -d -p 5000:5000 cybeross/coffee-wifi:latest
+          '
+          echo "The app is here: $IP:5000"
