@@ -99,12 +99,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           #gh auth status
-          echo "EC2_IP=$GITHUB_ENV"
+          echo "EC2_IP=$EC2_IP"
+          echo "IP=$IP"
           #Updating github action secret EC2_SSH_HOST_DNS
-          gh secret set EC2_SSH_HOST_DNS 
-            --body "$IP" 
-            --repo ${{ github.repository }}
-          
+          #gh secret set EC2_SSH_HOST_DNS 
+          #  --body "$IP" 
+          #  --repo ${{ github.repository }}
 
       - name: Build & Deploy to AWS EC2
         env:
