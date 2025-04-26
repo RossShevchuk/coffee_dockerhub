@@ -91,11 +91,17 @@ jobs:
             --region $REGION \
             --query "Reservations[0].Instances[0].PublicIpAddress" \
             --output text)
-          echo "EC2_IP=$IP" >> $GITHUB_ENV
-          echo "EC2_IP=$IP"
+          echo "EC2_IP=$IP" >> $GITHUB_ENV_IP
+          echo "EC2_IP=$GITHUB_ENV_IP"
+      - 
+        name: Set GitHub Secret using gh CLI
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh auth status
           #Updating github action secret EC2_SSH_HOST_DNS
           gh secret set EC2_SSH_HOST_DNS 
-            --body "$IP" 
+            --body "$GITHUB_ENV_IP" 
             --repo ${{ github.repository }}
           
 
