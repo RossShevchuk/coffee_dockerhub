@@ -85,7 +85,7 @@ jobs:
           echo "Waiting for EC2 to fully boot..."
           sleep 60  # wait a bit for the IP to be assigned
 
-        - 
+      - 
         name: Getting IP public address
         if: steps.ec2_state.outputs.state == 'running'
         run: |
