@@ -112,4 +112,4 @@ jobs:
             sudo docker pull cybeross/coffee-wifi:latest
             sudo docker run -d -p 5000:5000 cybeross/coffee-wifi:latest
           '
-          echo "The app is here: $IP:5000"
+          echo "The app is here: $EC2_IP:5000"
