@@ -66,6 +66,7 @@ jobs:
         name: Check EC2 Instance State
         id: ec2_state
         run: |
+          echo "Region is $aws-region"
           STATE=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --region $aws-region \
