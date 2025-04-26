@@ -102,7 +102,7 @@ jobs:
         name: Build & Deploy to AWS EC2
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          HOSTNAME: $EC2_IP
+          HOSTNAME: '$EC2_IP'
           USER_NAME: ${{secrets.EC2_SSH_USERNAME}}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
