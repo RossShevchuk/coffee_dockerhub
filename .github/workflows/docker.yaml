@@ -99,7 +99,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           #gh auth status
-          echo "EC2_IP=$IP"
+          echo "EC2_IP=$GITHUB_ENV"
           #Updating github action secret EC2_SSH_HOST_DNS
           gh secret set EC2_SSH_HOST_DNS 
             --body "$IP" 
