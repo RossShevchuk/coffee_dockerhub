@@ -59,8 +59,10 @@ jobs:
         name: Check EC2 Instance State
         id: ec2_state
         run: |
+          REGION="us-west-1"
           STATE=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
+            --region "$REGION" \
             --query "Reservations[0].Instances[0].State.Name" \
             --output text)
           echo "Instance state is: $STATE"
@@ -73,7 +75,6 @@ jobs:
           echo "Waiting for EC2 to fully boot..."
           sleep 60  # wait a bit for the IP to be assigned
           #Getting the updated IP
-          REGION="us-west-1"
           IP=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --region "$REGION" \
