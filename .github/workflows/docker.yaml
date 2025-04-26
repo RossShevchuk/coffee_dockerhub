@@ -95,12 +95,12 @@ jobs:
           echo "EC2_IP=$IP"
       - 
         name: Set GitHub Secret using gh CLI
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: >-
-          gh secret set EC2_SSH_HOST_DNS 
-            --body "$EC2_IP" 
-            --repo ${{ github.repository }}
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'EC2_SSH_HOST_DNS'  
+          value: '$EC2_IP'
+          repository: ${{ github.repository }}
+          token: ${{ secrets.GH_PAT }}
 
       - name: Build & Deploy to AWS EC2
         env:
