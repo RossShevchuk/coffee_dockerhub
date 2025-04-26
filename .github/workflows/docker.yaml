@@ -90,6 +90,7 @@ jobs:
         if: steps.ec2_state.outputs.state == 'running'
         run: |
           #Getting the updated IP
+          REGION=${{ secrets.AWS_REGION }}
           IP=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --region $REGION \
