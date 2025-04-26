@@ -79,7 +79,7 @@ jobs:
         name: Start EC2 Instance (only if stopped)
         if: steps.ec2_state.outputs.state == 'stopped'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           REGION=${{ secrets.AWS_REGION }}
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
