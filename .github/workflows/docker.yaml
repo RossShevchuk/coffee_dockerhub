@@ -49,6 +49,7 @@ jobs:
   EC2:
     name: EC2
     runs-on: ubuntu-latest
+    needs: DockerHub
     steps:
       - 
         name: Checkout
