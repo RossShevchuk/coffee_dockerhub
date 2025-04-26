@@ -98,7 +98,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          gh auth status
+          #gh auth status
           #Updating github action secret EC2_SSH_HOST_DNS
           gh secret set EC2_SSH_HOST_DNS 
             --body "$EC2_IP" 
