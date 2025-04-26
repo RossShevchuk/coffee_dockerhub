@@ -91,7 +91,7 @@ jobs:
             --region $REGION \
             --query "Reservations[0].Instances[0].PublicIpAddress" \
             --output text)
-          echo "EC2_IP=$IP" >> $GITHUB_ENV_IP
+          echo "EC2_IP=$IP" >> $GITHUB_ENV
           echo "EC2_IP=$IP"
       - 
         name: Set GitHub Secret using gh CLI
