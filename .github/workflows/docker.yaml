@@ -75,6 +75,7 @@ jobs:
             --output text)
           echo "Instance state is: $STATE"
           echo "state=$STATE" >> $GITHUB_OUTPUT
+
       - 
         name: Start EC2 Instance (only if stopped)
         if: steps.ec2_state.outputs.state == 'stopped'
@@ -85,6 +86,7 @@ jobs:
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           echo "Waiting for EC2 to fully boot..."
           sleep 60  # wait a bit for the IP to be assigned
+          
         - 
         name: Getting IP public address
         if: steps.ec2_state.outputs.state == 'running'
