@@ -87,7 +87,6 @@ jobs:
 
       - 
         name: Getting IP public address
-        if: steps.ec2_state.outputs.state == 'running'
         run: |
           #Getting the updated IP
           REGION=${{ secrets.AWS_REGION }}
