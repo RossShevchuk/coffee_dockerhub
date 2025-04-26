@@ -85,6 +85,8 @@ jobs:
           aws ec2 start-instances --instance-ids ${{ secrets.EC2_INSTANCE_ID }}
           echo "Waiting for EC2 to fully boot..."
           sleep 60  # wait a bit for the IP to be assigned
+        if: steps.ec2_state.outputs.state == 'running'
+        run: |
           #Getting the updated IP
           IP=$(aws ec2 describe-instances \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
@@ -94,18 +96,10 @@ jobs:
           echo "EC2_IP=$IP" >> $GITHUB_ENV
           echo "EC2_IP=$IP"
       - 
-        name: Set GitHub Secret using gh CLI
-        uses: hmanzur/actions-set-secret@v2.0.0
-        with:
-          name: 'EC2_SSH_HOST_DNS'  
-          value: '$EC2_IP'
-          repository: ${{ github.repository }}
-          token: ${{ secrets.GH_PAT }}
-
-      - name: Build & Deploy to AWS EC2
+        name: Build & Deploy to AWS EC2
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          HOSTNAME: ${{secrets.EC2_SSH_HOST_DNS}}
+          HOSTNAME: $EC2_IP
           USER_NAME: ${{secrets.EC2_SSH_USERNAME}}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
