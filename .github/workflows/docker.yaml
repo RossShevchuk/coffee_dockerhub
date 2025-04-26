@@ -90,6 +90,7 @@ jobs:
             --query "Reservations[0].Instances[0].PublicIpAddress" \
             --output text)
           echo "EC2_IP=$IP" >> $GITHUB_ENV
+          echo "EC2_IP=$IP"
           #Updating github action secret EC2_SSH_HOST_DNS
           gh secret set EC2_SSH_HOST_DNS 
             --body "$IP" 
