@@ -3,21 +3,18 @@
 # base python image for custom image
 FROM python:3.9.13-slim-buster
 
-ENV PIP_ROOT_USER_ACTION=ignore
-RUN pip install --upgrade pip
-
 # create working directory and install pip dependencies
 WORKDIR /git-dockerhub
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # copy python project files from local to /git-docker-aws image working directory
-COPY . .
+COPY . /git-dockerhub
 ENV FLASK_APP=main.py
 
 
-EXPOSE 5000
+EXPOSE 80
 
 # run the flask server
-#CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0:5000"]
-CMD ["python3", "main.py"]
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+#CMD ["python3", "main.py"]
